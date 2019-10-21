@@ -1,2 +1,2 @@
-# PeakswareWorkoutApp
-Workout SPA for Peaksware take-home coding test
+# Peaksware Workout App
+Workout SPA for Peaksware take-home coding test.
