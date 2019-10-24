@@ -6,6 +6,18 @@ async function loadWorkoutData(file) {
   });
 }
 
+async function getCoordinates(workoutData) {
+  return new Promise((resolve) => {
+    resolve(workoutData.samples.map(
+      sample => 
+      ({
+        millisecondOffset: sample.millisecondOffset, positionLat: sample.values.positionLat, positionLong: sample.values.positionLong
+      })
+    ));
+  });
+}
+
 module.exports = {
-  loadWorkoutData
+  loadWorkoutData,
+  getCoordinates
 }
