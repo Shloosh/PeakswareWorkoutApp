@@ -15,7 +15,8 @@ app.use(
 );
 
 app.get('/api/workoutData', (req, res) => {
-  res.json(workoutData);
+  //res.json(workoutData);
+  res.send('<script>var workoutData = ' + JSON.stringify(workoutData) + '</script>');
   console.log('Sent workout data');
 });
 
