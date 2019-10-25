@@ -84,7 +84,8 @@ class MyMap extends Component {
   getCoords() {
     axios.get('/api/coordinates')
       .then(res => {
-        const coordinates = res.data.filter(item => item.millisecondOffset);
+        const coordinates = res.data;
+        //console.log("coordinates: " + JSON.stringify(coordinates.filter(item => item.millisecondOffset < 10000)));
         this.setState({ coords: coordinates });
       });
   }

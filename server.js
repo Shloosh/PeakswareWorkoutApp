@@ -2,9 +2,7 @@ const express = require('express');
 const path = require('path');
 const workoutService = require('./workout-service.js');
 
-workoutService.loadWorkoutData('./workout-data.json').then(data => {
-  const workoutData = data;
-
+workoutService.loadWorkoutData('./workout-data.json').then(workoutData => {
   const app = express();
 
   app.use(
@@ -18,8 +16,7 @@ workoutService.loadWorkoutData('./workout-data.json').then(data => {
   });
 
   app.get('/api/coordinates', (req, res) => {
-    workoutService.getCoordinates(workoutData).then(data => {
-      const coordinates = data;
+    workoutService.getCoordinates(workoutData).then(coordinates => {
       res.json(coordinates);
       //res.send('<script>var coordinates = ' + JSON.stringify(coordinates) + '</script>');
       console.log('Sent coordinates');
