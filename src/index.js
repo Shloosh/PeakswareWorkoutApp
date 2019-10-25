@@ -78,40 +78,39 @@ class MyMap extends Component {
   }
 
   componentDidMount() {
-    this.getFirstTenCoords();
+    this.getCoords();
   }
 
-  getFirstTenCoords() {
+  getCoords() {
     axios.get('/api/coordinates')
       .then(res => {
-        const coordinates = res.data.filter(item => item.millisecondOffset < 10000);
-        // console.log("coords: " + coordinates + ", type: " + typeof(coordinates));
-        //const coordinates = [{test: "asdf", another: "fdsa"}, {test: "3", another: "4"}];
+        const coordinates = res.data.filter(item => item.millisecondOffset);
         this.setState({ coords: coordinates });
-        console.log("test message");
       });
   }
 
   render() {
-    const coords = this.state.coords;
+    if (this.state.coords.length == 0) {
+      return (<p>Loading...</p>);
+    }
+
+    const coords = this.state.coords.filter(c => c.positionLat && c.positionLong).map(c => [c.positionLat, c.positionLong]);
+    console.log(coords);
+    const minLat = Math.min(...coords.map(c => c[0]));
+    const maxLat = Math.max(...coords.map(c => c[0]));
+    const minLong = Math.min(...coords.map(c => c[1]));
+    const maxLong = Math.max(...coords.map(c => c[1]));
+    const center = [(maxLat + minLat)/2, (maxLong + minLong)/2];
+    console.log(`minLat: ${minLat}, maxLat: ${maxLat}, minLong: ${minLong}, maxLong: ${maxLong}, center: ${center}`);
 
     return (
-      <div>
-        <h1>First 10 Coordinates: </h1>
-        {coords.length ? (
-          <div>
-            {coords.map(item => {
-              return(
-                <div>
-                  {JSON.stringify(item)}
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <p>No coords to find.</p>
-        )}
-      </div>
+      <Map center={center} zoom={13}>
+        <TileLayer
+          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Polyline color="black" positions={coords} />
+      </Map>
     );
   }
 }
