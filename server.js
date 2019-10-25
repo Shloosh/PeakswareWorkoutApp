@@ -25,6 +25,15 @@ workoutService.loadWorkoutData('./workout-data.json').then(workoutData => {
     });
   });
 
+  app.get('/api/events', (req, res) => {
+    workoutService.getEvents(workoutData).then(events => {
+      res.json(events);
+      console.log('Sent events');
+    }).catch(err => {
+      throw err;
+    });
+  });
+
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   });

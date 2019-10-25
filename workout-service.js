@@ -16,7 +16,12 @@ async function getCoordinates(workoutData) {
   );
 }
 
+async function getEvents(workoutData) {
+  return workoutData.samples.filter(sample => sample.eventType !== "none");
+}
+
 module.exports = {
   loadWorkoutData,
-  getCoordinates
+  getCoordinates,
+  getEvents
 }
