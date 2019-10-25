@@ -23,8 +23,7 @@
   "homepage": "https://github.com/Shloosh/PeakswareWorkoutApp#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react": "^16.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
@@ -33,6 +32,9 @@
     "axios": "^0.19.0",
     "babel-loader": "^8.0.6",
     "html-webpack-plugin": "^4.0.0-beta.8",
+    "leaflet": "^1.5.1",
+    "react-dom": "^16.11.0",
+    "react-leaflet": "^2.5.0",
     "react-router-dom": "^5.1.2",
     "webpack": "^5.0.0-beta.1",
     "webpack-cli": "^3.3.9",
