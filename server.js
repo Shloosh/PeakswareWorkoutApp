@@ -20,7 +20,8 @@ workoutService.loadWorkoutData('./workout-data.json').then(data => {
   app.get('/api/coordinates', (req, res) => {
     workoutService.getCoordinates(workoutData).then(data => {
       const coordinates = data;
-      res.send('<script>var coordinates = ' + JSON.stringify(coordinates) + '</script>');
+      res.json(coordinates);
+      //res.send('<script>var coordinates = ' + JSON.stringify(coordinates) + '</script>');
       console.log('Sent coordinates');
     }).catch(err => {
       throw err;
