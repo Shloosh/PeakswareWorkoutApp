@@ -169,22 +169,6 @@ class ZoomLineChart extends React.Component {
   }
 }
 
-const Root = () => (
-  <Router>
-    <Switch>
-      <Route exact path="/" component={App} />
-      <Route path="/map" component={MyMap} />
-      <Route path="/chart" component={ZoomLineChart} />
-    </Switch>
-  </Router>
-);
-
-const App = () => (
-  <div>
-    <h1>Hello World!</h1>
-  </div>
-);
-
 class MyMap extends Component {
   constructor(props) {
     super(props);
@@ -259,5 +243,21 @@ class MyMap extends Component {
     );
   }
 }
+
+const App = () => (
+  <div>
+    <h1>Hello World!</h1>
+  </div>
+);
+
+const Root = () => (
+  <Router>
+    <Switch>
+      <Route exact path="/" component={App} />
+      <Route path="/map" component={MyMap} />
+      <Route path="/chart" component={ZoomLineChart} />
+    </Switch>
+  </Router>
+);
 
 ReactDOM.render(<Root/>, document.getElementById('root'));
