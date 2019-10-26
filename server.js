@@ -43,6 +43,15 @@ workoutService.loadWorkoutData('./workout-data.json').then(workoutData => {
     });
   });
 
+  app.get('/api/powerOutput', (req, res) => {
+    workoutService.getPowerOutput(workoutData).then(events => {
+      res.json(events);
+      console.log('Sent power output data');
+    }).catch(err => {
+      throw err;
+    });
+  });
+
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   });

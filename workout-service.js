@@ -20,6 +20,10 @@ async function getEvents(workoutData) {
   return workoutData.samples.filter(sample => sample.eventType !== "none");
 }
 
+async function getPowerOutput(workoutData) {
+  return workoutData.samples.filter(sample => sample.values.power !== undefined).map((sample, i) => ({ secondOffset: sample.millisecondOffset/1000, power: sample.values.power }));
+}
+
 /**
  * If a start or stop event happens on a sample where positional data isn't being recorded,
  * push it to the nearest sample that has positional data. This way, we can associate every
@@ -92,5 +96,6 @@ module.exports = {
   loadWorkoutData,
   getCoordinates,
   getEvents,
-  getEventsRounded
+  getEventsRounded,
+  getPowerOutput
 }
