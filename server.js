@@ -34,6 +34,15 @@ workoutService.loadWorkoutData('./workout-data.json').then(workoutData => {
     });
   });
 
+  app.get('/api/eventsRounded', (req, res) => {
+    workoutService.getEventsRounded(workoutData).then(events => {
+      res.json(events);
+      console.log('Sent rounded events');
+    }).catch(err => {
+      throw err;
+    });
+  });
+
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   });
