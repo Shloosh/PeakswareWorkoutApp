@@ -25,6 +25,66 @@ async function getPowerOutput(workoutData) {
 }
 
 /**
+ * Calculates the best cumulative power output within a rolling timeFrame over the provided workoutData. Works in O(n) time.
+ * 
+ * @param {*} workoutData 
+ * @param {*} timeFrame 
+ * 
+ * TODO: Figure out a way to process timeFrame as an array of timeFrames, so that requests can be grouped together
+ */
+async function bestEffort(workoutData, timeFrame) {
+  const startingTime = workoutData.samples[0].millisecondOffset;
+  const endingTime = workoutData.samples[workoutData.samples.length-1].millisecondOffset;
+  const duration = endingTime-startingTime;
+
+  let bestEffort = "N/A";
+  if (duration < timeFrame) {
+    return bestEffort;
+  } else {
+    bestEffort = {
+      totalPowerOutput: 0,
+      startTime: 0,
+      endTime: 0
+    };
+  }
+
+  let sampleFromTimeFrameAgo = workoutData.samples[0];
+  sampleFromTimeFrameAgo.currentIndex = 0;
+  let sampleFromTimeFrameAgoNextIndex;
+  let rollingTimeFrameEffort = 0;
+  let timeSinceFirstSample;
+  let currentSampleMillisecondOffset, currentSamplePower;
+
+  for (let i = 0; i < workoutData.samples.length; i++) {
+    timeSinceFirstSample = currentSampleMillisecondOffset - startingTime;
+    currentSampleMillisecondOffset = workoutData.samples[i].millisecondOffset;
+    // TODO: There may be a better way to handle undefined power values in a sample
+    currentSamplePower = workoutData.samples[i].values.power ? workoutData.samples[i].values.power : 0;
+
+    if (timeSinceFirstSample < timeFrame) {
+      rollingTimeFrameEffort += currentSamplePower;
+    } else {
+      rollingTimeFrameEffort += (currentSamplePower - sampleFromTimeFrameAgo.values.power);
+
+      // Increment our sample from [timeFrame] milliseconds ago
+      // TODO: This doesn't work properly if there are uneven time jumps between each sample
+      sampleFromTimeFrameAgoNextIndex = sampleFromTimeFrameAgo.currentIndex + 1;
+      sampleFromTimeFrameAgo = workoutData.samples[sampleFromTimeFrameAgoNextIndex];
+      sampleFromTimeFrameAgo.currentIndex = sampleFromTimeFrameAgoNextIndex;
+    }
+
+    if (rollingTimeFrameEffort > bestEffort.totalPowerOutput) {
+      bestEffort.totalPowerOutput = rollingTimeFrameEffort;
+      // Undo the sampleFromTimeFrameAgo increment from above
+      bestEffort.startTime = workoutData.samples[sampleFromTimeFrameAgo.currentIndex-1].millisecondOffset;
+      bestEffort.endTime = currentSampleMillisecondOffset;
+    }
+  }
+
+  return bestEffort;
+}
+
+/**
  * If a start or stop event happens on a sample where positional data isn't being recorded,
  * push it to the nearest sample that has positional data. This way, we can associate every
  * start or stop event with a location.
@@ -97,5 +157,6 @@ module.exports = {
   getCoordinates,
   getEvents,
   getEventsRounded,
-  getPowerOutput
+  getPowerOutput,
+  bestEffort
 }

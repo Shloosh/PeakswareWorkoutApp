@@ -51,11 +51,6 @@ class ZoomLineChart extends Component {
   zoom(){
     let { refAreaLeft, refAreaRight, data } = this.state;
 
-    if (data.length == 0) {
-      console.log("data.length == 0");
-      return;
-    }
-
 		if ( refAreaLeft === refAreaRight || refAreaRight === '' ) {
     	this.setState( () => ({
       	refAreaLeft : '',
@@ -225,6 +220,32 @@ class MyMap extends Component {
   }
 }
 
+class BestEfforts extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      bestEfforts: []
+    };
+  }
+
+  componentDidMount() {
+    this.getBestEfforts();
+  }
+
+  getBestEfforts() {
+    axios.get('/api/bestEffort?timeFrame=60000').then(res => {
+      console.log("bestEffort: " + JSON.stringify(res.data));
+    });
+  }
+
+  render() {
+    return(
+      <h1>Best Efforts.</h1>
+    );
+  }
+}
+
 const App = () => (
   <div>
     <h1>Hello World!</h1>
@@ -237,6 +258,7 @@ const Root = () => (
       <Route exact path="/" component={App} />
       <Route path="/map" component={MyMap} />
       <Route path="/chart" component={ZoomLineChart} />
+      <Route path="/bestEfforts" component={BestEfforts} />
     </Switch>
   </Router>
 );

@@ -52,6 +52,26 @@ workoutService.loadWorkoutData('./workout-data.json').then(workoutData => {
     });
   });
 
+  app.get('/api/bestEffort', (req, res) => {
+    if (!req.query.timeFrame) {
+      return res.status(422).send({
+        message: "timeFrame is a required query parameter and must be a non-negative integer expressing the millisecond duration within which to check for best effort."
+      });
+    }
+    let timeFrame = Number(req.query.timeFrame);
+    if (timeFrame < 0) {
+      return res.status(422).send({
+        message: "timeFrame must be a non-negative integer expressing the millisecond duration within which to check for best effort."
+      });
+    }
+    workoutService.bestEffort(workoutData, timeFrame).then(bestEffort => {
+      res.json(bestEffort);
+      console.log(`Sent best effort for ${timeFrame/1000} second time-frame.`);
+    }).catch(err => {
+      throw err;
+    });
+  });
+
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   });
