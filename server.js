@@ -64,7 +64,7 @@ workoutService.loadWorkoutData('./workout-data.json').then(workoutData => {
         message: "timeFrame must be a non-negative integer expressing the millisecond duration within which to check for best effort."
       });
     }
-    workoutService.bestEffort(workoutData, timeFrame).then(bestEffort => {
+    workoutService.getBestEffort(workoutData, timeFrame).then(bestEffort => {
       res.json(bestEffort);
       console.log(`Sent best effort for ${timeFrame/1000} second time-frame.`);
     }).catch(err => {

@@ -32,7 +32,7 @@ async function getPowerOutput(workoutData) {
  * 
  * TODO: Figure out a way to process timeFrame as an array of timeFrames, so that requests can be grouped together
  */
-async function bestEffort(workoutData, timeFrame) {
+async function getBestEffort(workoutData, timeFrame) {
   const startingTime = workoutData.samples[0].millisecondOffset;
   const endingTime = workoutData.samples[workoutData.samples.length-1].millisecondOffset;
   const duration = endingTime-startingTime;
@@ -158,5 +158,5 @@ module.exports = {
   getEvents,
   getEventsRounded,
   getPowerOutput,
-  bestEffort
+  getBestEffort
 }

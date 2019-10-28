@@ -183,6 +183,33 @@ it('should format power output data correctly', done => {
   });
 });
 
+it('should format best effort data correctly', done => {
+  workoutService.getBestEffort(testWorkoutData, 1000).then(bestEffort => {
+    expect(bestEffort).toEqual(
+      {
+        "totalPowerOutput": 181,
+        "startTime": 9000,
+        "endTime":10000
+      }
+    );
+    done();
+  });
+});
+
+it('should calculate the correct best effort within a 3 second timeframe', done => {
+  workoutService.getBestEffort(testWorkoutData, 3000).then(bestEffort => {
+    expect(bestEffort.totalPowerOutput).toEqual(472);
+    done();
+  });
+});
+
+it('should calculate the correct best effort within a 5 second timeframe', done => {
+  workoutService.getBestEffort(testWorkoutData, 5000).then(bestEffort => {
+    expect(bestEffort.totalPowerOutput).toEqual(690);
+    done();
+  });
+});
+
 const testWorkoutData = 
 {
   "channelSet": [
