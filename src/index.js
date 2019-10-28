@@ -7,7 +7,9 @@ import BestEfforts from './components/BestEfforts.js';
 
 const App = () => (
   <div>
-    <h1>Hello World!</h1>
+    <WorkoutMap />
+    <PowerOutputChart />
+    <BestEfforts />
   </div>
 );
 
