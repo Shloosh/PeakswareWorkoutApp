@@ -129,6 +129,60 @@ it('should format rounded event data correctly', done => {
   });
 });
 
+it('should format power output data correctly', done => {
+  workoutService.getPowerOutput(testWorkoutData).then(powerOutputData => {
+    expect(powerOutputData).toEqual(
+      [
+        {
+          "secondOffset": 0,
+          "power": 143
+        },
+        {
+          "secondOffset": 1,
+          "power": 158
+        },
+        {
+          "secondOffset": 2,
+          "power": 157
+        },
+        {
+          "secondOffset": 3,
+          "power": 157
+        },
+        {
+          "secondOffset": 4,
+          "power": 157
+        },
+        {
+          "secondOffset": 5,
+          "power": 24
+        },
+        {
+          "secondOffset": 6,
+          "power": 137
+        },
+        {
+          "secondOffset": 7,
+          "power": 99
+        },
+        {
+          "secondOffset": 8,
+          "power": 134
+        },
+        {
+          "secondOffset": 9,
+          "power": 139
+        },
+        {
+          "secondOffset": 10,
+          "power": 181
+        }
+      ]
+    );
+    done();
+  });
+});
+
 const testWorkoutData = 
 {
   "channelSet": [
