@@ -58,6 +58,77 @@ it('should format coordinate data correctly', done => {
   });
 });
 
+it('should format event data correctly', done => {
+  workoutService.getEvents(testWorkoutData).then(eventData => {
+    expect(eventData).toEqual(
+      [
+        {
+          "eventType": "start",
+          "millisecondOffset": 0,
+          "values": {
+            "heartRate": 74,
+            "cadence": 63,
+            "power": 143,
+            "temperature": 22,
+            "elevation": 1543.4,
+            "distance": 0,
+            "speed": 7.231
+          }
+        },
+        {
+          "eventType": "stop",
+          "millisecondOffset": 10000,
+          "values": {
+            "heartRate": 82,
+            "cadence": 77,
+            "power": 181,
+            "temperature": 22,
+            "elevation": 1544,
+            "distance": 49.54,
+            "speed": 8.378,
+            "positionLat": 40.01532,
+            "positionLong": -105.13099
+          }
+        }
+      ]
+    );
+    done();
+  });
+});
+
+it('should format rounded event data correctly', done => {
+  workoutService.getEventsRounded(testWorkoutData).then(eventRoundedData => {
+    expect(eventRoundedData).toEqual(
+      [
+        {
+          "eventType": "start",
+          "millisecondOffset": 0,
+          "values": {
+            "positionLat": 40.01488,
+            "positionLong": -105.131
+          }
+        },
+        {
+          "eventType": "stop",
+          "millisecondOffset": 10000,
+          "values": {
+            "heartRate": 82,
+            "cadence": 77,
+            "power": 181,
+            "temperature": 22,
+            "elevation": 1544,
+            "distance": 49.54,
+            "speed": 8.378,
+            "positionLat": 40.01532,
+            "positionLong": -105.13099
+          }
+        }
+      ]
+    );
+    done();
+  });
+});
+
 const testWorkoutData = 
 {
   "channelSet": [
